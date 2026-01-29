@@ -1,0 +1,28 @@
+_schema-version: "3.2"
+ID: ehsm_mta
+version: 0.0.1
+modules:
+  - name: ehsm
+    type: html5
+    path: .
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm run build
+      supported-platforms: []
+    requires:
+      - name: ehsm_html5_repo_host
+      - name: ehsm_ui5_rt
+
+resources:
+  - name: ehsm_html5_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: ehsm_ui5_rt
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime

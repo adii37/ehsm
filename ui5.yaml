@@ -1,0 +1,29 @@
+specVersion: "3.1"
+metadata:
+  name: ehsm
+type: application
+resources:
+  configuration:
+    paths:
+      webapp: webapp
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+        backend:
+          - path: /sap
+            url: http://AZKTLDS5CP.kcloud.com:8000
+            destination: ZEHSMPORTAL_SRV
+    - name: fiori-tools-appreload
+      afterMiddleware: fiori-tools-proxy
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300

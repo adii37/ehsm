@@ -1,0 +1,16 @@
+{
+    "welcomeFile": "/index.html",
+    "routes": [
+        {
+            "source": "^/sap/(.*)$",
+            "target": "$1",
+            "destination": "ZEHSMPORTAL_SRV",
+            "authenticationType": "none"
+        },
+        {
+            "source": "^(.*)$",
+            "target": "$1",
+            "service": "html5-apps-repo-rt"
+        }
+    ]
+}

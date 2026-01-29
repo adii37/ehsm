@@ -1,0 +1,156 @@
+<mvc:View controllerName="ehsm.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout">
+    <Page id="page" title="Safety Engineer Portal" titleAlignment="Start" class="customPageTitle sapUiContentPadding">
+        <headerContent>
+            <HBox alignItems="Center" class="unifiedHeaderContainer">
+                <FlexBox class="liveDot" />
+                <Text text="LIVE SYSTEM" class="sapUiSmallMarginEnd" style="font-weight: 800; font-size: 0.75rem; color: #10b981; letter-spacing: 1px;" />
+                
+                <Button icon="sap-icon://home" type="Transparent" class="navIcon" />
+                <Button icon="sap-icon://grid" type="Transparent" class="navIcon" />
+                
+                <ToolbarSeparator class="headerSeparator" />
+                
+                <Button icon="sap-icon://bell" type="Transparent" />
+                <Button text="Sign Out" icon="sap-icon://logout" press=".onLogout" type="Transparent" class="logoutBtn" />
+            </HBox>
+        </headerContent>
+        <content>
+            <VBox class="dashboardContainer">
+                <!-- 1. Advanced Metrics Grid -->
+                <layout:Grid containerQuery="true" defaultSpan="XL4 L4 M6 S12">
+                    <VBox class="metricCard">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                            <VBox>
+                                <Text text="Critical Incidents" class="metricLabel" />
+                                <Title text="42" class="metricValue" />
+                            </VBox>
+                            <VBox class="metricIconContainer">
+                                <core:Icon src="sap-icon://warning2" class="metricIcon" />
+                            </VBox>
+                        </HBox>
+                        <ProgressIndicator percentValue="65" displayValue="High Risk" state="Error" class="sapUiSmallMarginTop" />
+                        <HBox class="sapUiTinyMarginTop">
+                            <core:Icon src="sap-icon://trend-up" color="#ef4444" size="0.75rem" />
+                            <Text text="+5.2%" style="font-size: 0.75rem; color: #ef4444; font-weight: 700; margin-left: 0.5rem;" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox class="metricCard">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                            <VBox>
+                                <Text text="System Stability" class="metricLabel" />
+                                <Title text="98.2%" class="metricValue" />
+                            </VBox>
+                            <VBox class="metricIconContainer">
+                                <core:Icon src="sap-icon://shield" class="metricIcon" />
+                            </VBox>
+                        </HBox>
+                        <ProgressIndicator percentValue="98" displayValue="Optimal" state="Success" class="sapUiSmallMarginTop" />
+                        <HBox class="sapUiTinyMarginTop">
+                            <core:Icon src="sap-icon://trend-down" color="#10b981" size="0.75rem" />
+                            <Text text="-2.1% Latency" style="font-size: 0.75rem; color: #10b981; font-weight: 700; margin-left: 0.5rem;" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox class="metricCard">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                            <VBox>
+                                <Text text="Active Assets" class="metricLabel" />
+                                <Title text="856" class="metricValue" />
+                            </VBox>
+                            <VBox class="metricIconContainer">
+                                <core:Icon src="sap-icon://laptop" class="metricIcon" />
+                            </VBox>
+                        </HBox>
+                        <ProgressIndicator percentValue="92" displayValue="Synchronized" state="Information" class="sapUiSmallMarginTop" />
+                        <HBox class="sapUiTinyMarginTop">
+                            <core:Icon src="sap-icon://connected" color="#10b981" size="0.75rem" />
+                            <Text text="All Clusters Online" style="font-size: 0.75rem; color: #10b981; font-weight: 700; margin-left: 0.5rem;" />
+                        </HBox>
+                    </VBox>
+                </layout:Grid>
+
+                <!-- 3. Main Data Tables -->
+                <IconTabBar id="idIconTabBar" class="premiumTableCard">
+                    <items>
+                        <IconTabFilter icon="sap-icon://activity-items" text="Active Incidents" key="Incidents">
+                            <Table id="incidentsTable" items="{path: '/IncidentsSet'}" sticky="HeaderToolbar,ColumnHeaders">
+                                <headerToolbar>
+                                    <OverflowToolbar style="Clear">
+                                        <Title text="System Logs" level="H2"/>
+                                        <ToolbarSpacer />
+                                        <SearchField id="incidentsSearch" width="30%" search=".onSearch" placeholder="Filter descriptions..."/>
+                                        <Select id="priorityFilter" change=".onPriorityChange" width="150px">
+                                            <core:Item key="All" text="All Priority" />
+                                            <core:Item key="High" text="High" />
+                                            <core:Item key="Medium" text="Medium" />
+                                            <core:Item key="Low" text="Low" />
+                                        </Select>
+                                        <Button icon="sap-icon://add" type="Emphasized" class="fabButton sapUiSmallMarginBegin" tooltip="Log New Incident" />
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column width="150px"><Text text="Serial &amp; ID"/></Column>
+                                    <Column><Text text="Event Narrative"/></Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true"><Text text="Impact Area"/></Column>
+                                    <Column hAlign="Center"><Text text="Priority"/></Column>
+                                    <Column hAlign="End"><Text text="Timestamp"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem type="Navigation" press=".onItemPress">
+                                        <cells>
+                                            <HBox alignItems="Center">
+                                                <core:Icon src="sap-icon://it-host" class="sapUiTinyMarginEnd" color="#6366f1" />
+                                                <Text text="{IncidentId}" style="font-weight: 700" />
+                                            </HBox>
+                                            <Text text="{IncidentDescription}" style="font-weight: 500" />
+                                            <Text text="{IncidentCategory}" />
+                                            <ObjectStatus text="{IncidentPriority}" state="{= ${IncidentPriority} === 'High' ? 'Error' : ${IncidentPriority} === 'Medium' ? 'Warning' : 'Success' }" icon="{= ${IncidentPriority} === 'High' ? 'sap-icon://error' : 'sap-icon://sys-enter-2' }"/>
+                                            <Text text="{path: 'IncidentDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'short', relative: true }}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+                        <IconTabFilter icon="sap-icon://shield" text="Risk Assessments" key="Risks">
+                            <Table id="risksTable" items="{path: '/RiskSet'}">
+                                <headerToolbar>
+                                    <OverflowToolbar style="Clear">
+                                        <Title text="Threat Vectors" level="H2"/>
+                                        <ToolbarSpacer />
+                                        <SearchField id="risksSearch" width="30%" search=".onSearchRisk" placeholder="Filter risks..."/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column width="120px"><Text text="Risk ID"/></Column>
+                                    <Column><Text text="Description"/></Column>
+                                    <Column><Text text="Domain"/></Column>
+                                    <Column hAlign="Center"><Text text="Impact"/></Column>
+                                    <Column hAlign="Center"><Text text="Likelihood"/></Column>
+                                    <Column><Text text="Mitigation Strategy"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{RiskId}" style="font-weight: 700; color: #ec4899" />
+                                            <Text text="{RiskDescription}" style="font-weight: 500" />
+                                            <Text text="{RiskCategory}"/>
+                                            <ObjectStatus text="{RiskSeverity}" state="{= ${RiskSeverity} === 'High' ? 'Error' : 'None' }"/>
+                                            <Text text="{Likelihood}"/>
+                                            <Text text="{MitigationMeasures}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

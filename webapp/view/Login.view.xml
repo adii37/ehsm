@@ -1,0 +1,29 @@
+<mvc:View controllerName="ehsm.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout">
+    <Page showHeader="false" class="loginPageBackground">
+        <content>
+            <layout:VerticalLayout width="100%" class="loginContainer">
+                <VBox alignItems="Center" justifyContent="Center" class="loginCard">
+                    <VBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Title text="EHSM" class="loginLogoText" />
+                        <Title text="Safety Engineer Portal" level="H2" class="loginSubtitle" />
+                    </VBox>
+                    
+                    <VBox width="100%" class="sapUiMediumMarginTop">
+                        <Label text="Employee ID" class="loginLabel" />
+                        <Input id="usernameInput" placeholder="Enter ID (e.g., AD01)" class="loginInput" />
+                        
+                        <Label text="Secure Access Code" class="loginLabel sapUiSmallMarginTop" />
+                        <Input id="passwordInput" type="Password" placeholder="••••••••" class="loginInput" />
+                        
+                        <Button text="System Entry" press=".onLogin" type="Emphasized" class="loginButton sapUiMediumMarginTop" width="100%" />
+                    </VBox>
+                    
+                    <Text text="Industrial Grade Security Active" class="loginFooterText sapUiMediumMarginTop" />
+                </VBox>
+            </layout:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>
